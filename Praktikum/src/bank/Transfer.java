@@ -54,7 +54,7 @@ public class Transfer extends Transaction {
     }
 
     /**
-     * <p>Sests new recipient of transfer</p>
+     * <p>Sets new recipient of transfer</p>
      * @param recipient new recipient
      */
     public void setRecipient(String recipient) {
