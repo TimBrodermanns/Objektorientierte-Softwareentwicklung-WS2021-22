@@ -1,9 +1,9 @@
-public class payment extends transaction {
+public class Payment extends Transaction {
 
     private double incomingInterest;
     private double outgoingInterest;
 
-    public payment(String Date, double Amount, String Description, double IncomingInterest, double OutgoingInterest){
+    public Payment(String Date, double Amount, String Description, double IncomingInterest, double OutgoingInterest){
         super(Date,Amount,Description);
         this.incomingInterest = IncomingInterest;
         this.outgoingInterest = OutgoingInterest;

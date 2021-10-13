@@ -1,9 +1,9 @@
-public class transaction {
+public class Transaction {
     private String date;
     private double amount;
     private String description;
 
-    public transaction(String Date, double Amount, String Description){
+    public Transaction(String Date, double Amount, String Description){
         this.date = Date;
         this.amount = Amount;
         this.description = Description;

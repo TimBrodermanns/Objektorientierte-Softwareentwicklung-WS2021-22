@@ -1,4 +1,4 @@
-public class Transfer extends transaction{
+public class Transfer extends Transaction{
 
     private String sender;
     private String recipient;
