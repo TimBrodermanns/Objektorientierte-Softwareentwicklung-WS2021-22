@@ -13,6 +13,7 @@ public class Transaction {
      *  @param Amount           Amount of Money
      *  @param Description      Description of the Transaction
      */
+
     public Transaction(String Date, double Amount, String Description){
         this.date = Date;
         this.amount = Amount;
@@ -26,26 +27,47 @@ public class Transaction {
         this(t.date, t.amount, t.description);
     }
 
+    /**
+     * @return returns date of that Transaction
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * <p>sets the date of the transaction</p>
+     * @param date new date
+     */
     public void setDate(String date) {
         this.date = date;
     }
 
+    /**
+     * @return returns Amount of the transactions
+     */
     public double getAmount() {
         return amount;
     }
 
+    /**
+     * <p>sets the new Amount of transaction</p>
+     * @param amount new Amount
+     */
     public void setAmount(double amount) {
         this.amount = amount;
     }
 
+    /**
+     * @return returns the description of the transaction
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * <p>Set new Description to the transaction</p>
+     * @param description new description
+     */
     public void setDescription(String description) {
         this.description = description;
     }

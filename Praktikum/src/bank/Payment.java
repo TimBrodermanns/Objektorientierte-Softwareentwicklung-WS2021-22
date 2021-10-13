@@ -29,18 +29,32 @@ public class Payment extends Transaction {
         this(p.getDate(), p.getAmount(), p.getDescription(), p.incomingInterest, p.outgoingInterest);
     }
 
+    /**
+     * @return returns incoming interest of payment
+     */
     public double getIncomingInterest() {
         return incomingInterest;
     }
 
+    /**
+     * <p>Sets new incoming interest</p>
+      * @param incomingInterest new interest
+     */
     public void setIncomingInterest(double incomingInterest) {
         this.incomingInterest = incomingInterest;
     }
 
+    /**
+     * @return returns outgoing interest of payment
+     */
     public double getOutgoingInterest() {
         return outgoingInterest;
     }
 
+    /**
+     * <p>sets new outgoing interest</p>
+     * @param outgoingInterest new interest
+     */
     public void setOutgoingInterest(double outgoingInterest) {
         this.outgoingInterest = outgoingInterest;
     }

@@ -29,19 +29,34 @@ public class Transfer extends Transaction {
         this(t.getDate(), t.getAmount(),t.getDescription(),t.sender, t.recipient);
     }
 
-
+    /**
+     *
+     * @return returns the sender of Transfer
+     */
     public String getSender() {
         return sender;
     }
 
+    /**
+     * <p>Sets new sender of transfer</p>
+     * @param sender new sender
+     */
     public void setSender(String sender) {
         this.sender = sender;
     }
 
+    /**
+     *
+     * @return returns recipient of transaction
+     */
     public String getRecipient() {
         return recipient;
     }
 
+    /**
+     * <p>Sests new recipient of transfer</p>
+     * @param recipient new recipient
+     */
     public void setRecipient(String recipient) {
         this.recipient = recipient;
     }
