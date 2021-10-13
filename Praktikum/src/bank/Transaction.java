@@ -1,3 +1,5 @@
+package bank;
+
 public class Transaction {
     private String date;
     private double amount;
@@ -7,6 +9,10 @@ public class Transaction {
         this.date = Date;
         this.amount = Amount;
         this.description = Description;
+    }
+
+    public Transaction(Transaction t){
+        this(t.date, t.amount, t.description);
     }
 
     public String getDate() {
@@ -32,4 +38,9 @@ public class Transaction {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public void printObject(){
+        System.out.print("Date: " + date +"\t | Amount: " + amount+ "\t | Description: " + description );
+    }
+
 }

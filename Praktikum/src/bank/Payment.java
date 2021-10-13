@@ -1,3 +1,5 @@
+package bank;
+
 public class Payment extends Transaction {
 
     private double incomingInterest;
@@ -7,6 +9,10 @@ public class Payment extends Transaction {
         super(Date,Amount,Description);
         this.incomingInterest = IncomingInterest;
         this.outgoingInterest = OutgoingInterest;
+    }
+
+    public Payment(Payment p){
+        this(p.getDate(), p.getAmount(), p.getDescription(), p.incomingInterest, p.outgoingInterest);
     }
 
     public double getIncomingInterest() {
@@ -23,5 +29,10 @@ public class Payment extends Transaction {
 
     public void setOutgoingInterest(double outgoingInterest) {
         this.outgoingInterest = outgoingInterest;
+    }
+
+    public void printObject(){
+        super.printObject();
+        System.out.println("\t | IncomingInterest: " + incomingInterest + "\t | OutgoingInterest: " + outgoingInterest);
     }
 }
