@@ -1,6 +1,9 @@
 package bank;
 
-
+/**
+ * <p>Handels transfers inbetween accounts</p>
+ * @see bank.Transaction
+ */
 public class Transfer extends Transaction {
 
     private String sender;
@@ -23,6 +26,7 @@ public class Transfer extends Transaction {
     }
 
     /**
+     * <p>Creates an identical new transfer object</p>
      * @param t copies t into a new object
      */
     public Transfer(Transfer t){
@@ -30,8 +34,8 @@ public class Transfer extends Transaction {
     }
 
     /**
-     *
-     * @return returns the sender of Transfer
+     * <p>returns the sender of Transfer</p>
+     * @return sender
      */
     public String getSender() {
         return sender;
@@ -46,8 +50,8 @@ public class Transfer extends Transaction {
     }
 
     /**
-     *
-     * @return returns recipient of transaction
+     *<p>returns recipient of transaction</p>
+     * @return recipient
      */
     public String getRecipient() {
         return recipient;
@@ -64,8 +68,9 @@ public class Transfer extends Transaction {
     /**
      * <p>Prints all variables into the Console</p>
      */
+    @Override
     public void printObject(){
         super.printObject();
-        System.out.println("\t | Sender: " + sender + "\t | Recipient" + recipient);
+        System.out.println("\nSender: \t\t" + sender + "\nRecipient: \t\t" + recipient);
     }
 }

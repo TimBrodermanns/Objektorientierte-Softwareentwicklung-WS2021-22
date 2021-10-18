@@ -1,5 +1,9 @@
 package bank;
 
+
+/**
+ * <p>Super Class for all Transaction</p>
+ */
 public class Transaction {
     private String date;
     private double amount;
@@ -28,14 +32,16 @@ public class Transaction {
     }
 
     /**
-     * @return returns date of that Transaction
+     * <p>returns date of that Transaction</p>
+     * @return date
      */
     public String getDate() {
         return date;
     }
 
     /**
-     * <p>sets the date of the transaction</p>
+     * <p>sets the date of the transaction</p> </br>
+     * <p>Format DD.MM.YYYY</p>
      * @param date new date
      */
     public void setDate(String date) {
@@ -43,7 +49,8 @@ public class Transaction {
     }
 
     /**
-     * @return returns Amount of the transactions
+     * <p>Amount of the transactions</p>
+     * @return Amount
      */
     public double getAmount() {
         return amount;
@@ -58,7 +65,8 @@ public class Transaction {
     }
 
     /**
-     * @return returns the description of the transaction
+     * <p>returns the description of the transaction</p>
+     * @return description
      */
     public String getDescription() {
         return description;
@@ -76,7 +84,6 @@ public class Transaction {
      * <p>Prints all variables into the Console</p>
      */
     public void printObject(){
-        System.out.print("Date: " + date +"\t | Amount: " + amount+ "\t | Description: " + description );
+        System.out.print("\nDate: \t\t\t" + date +"\nAmount: \t\t" + amount+ "\nDescription: \t" + description );
     }
-
 }
