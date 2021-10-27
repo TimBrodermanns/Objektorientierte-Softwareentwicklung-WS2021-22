@@ -69,8 +69,25 @@ public class Transfer extends Transaction {
      * <p>Prints all variables into the Console</p>
      */
     @Override
-    public void printObject(){
-        super.printObject();
-        System.out.println("\nSender: \t\t" + sender + "\nRecipient: \t\t" + recipient);
+    public String toString(){
+        String ret = super.toString() + "\nSender: \t\t" + sender + "\nRecipient: \t\t" + recipient;
+        return ret;
+    }
+
+    /**
+     *  <p>Calculates the new ammount of your balance</p>
+     * @return new balance
+     */
+    public double calculate(){
+        return this.getAmount();
+    }
+
+    /**
+     * <p>Checks if to Objects are Equal</p>
+     * @param T Transfer object to check
+     * @return true if its equal
+     */
+    public boolean equals(Transfer T) {
+        return super.equals(T) && (this.sender == T.sender && this.recipient == T.recipient);
     }
 }

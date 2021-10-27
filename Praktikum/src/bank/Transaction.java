@@ -4,7 +4,7 @@ package bank;
 /**
  * <p>Super Class for all Transaction</p>
  */
-public class Transaction {
+public abstract class Transaction {
     private String date;
     private double amount;
     private String description;
@@ -83,7 +83,16 @@ public class Transaction {
     /**
      * <p>Prints all variables into the Console</p>
      */
-    public void printObject(){
-        System.out.print("\nDate: \t\t\t" + date +"\nAmount: \t\t" + amount+ "\nDescription: \t" + description );
+    public String toString(){
+        return "\nDate: \t\t\t" + date +"\nAmount: \t\t" + amount+ "\nDescription: \t" + description;
+    }
+
+    /**
+     * <p>Checks if to Objects are Equal</p>
+     * @param T Transfer object to check
+     * @return true if its equal
+     */
+    public boolean equals(Transaction T){
+        return this.description == T.description && this.amount == T.amount && this.date == T.date;
     }
 }

@@ -4,7 +4,7 @@ package bank;
  * <p>Handels deposits and withdrawals</p>
  * @see bank.Transaction
  */
-public class Payment extends Transaction {
+public class Payment extends Transaction implements CalculateBill{
 
     private double incomingInterest;
     private double outgoingInterest;
@@ -72,8 +72,28 @@ public class Payment extends Transaction {
      * <p>Prints all variables into the Console</p>
      */
     @Override
-    public void printObject(){
-        super.printObject();
-        System.out.println("\nIncom-Interest: " + incomingInterest + "\nOutgo-Interest: " + outgoingInterest);
+    public String toString(){
+        double tmp = this.getAmount();
+        this.setAmount(calculate());
+        String ret = super.toString() + "\nIncom-Interest: " + incomingInterest + "\nOutgo-Interest: " + outgoingInterest;
+        this.setAmount(tmp);
+        return ret;
+    }
+
+    /**
+     *  <p>Calculates the new ammount of your balance</p>
+     * @return new balance
+     */
+    public double calculate(){
+        return (this.getAmount() > 0) ? (this.getAmount() - this.getAmount()*incomingInterest) : (this.getAmount() + this.getAmount()*this.outgoingInterest);
+    }
+
+    /**
+     * <p>Checks if to Objects are Equal</p>
+     * @param P Payment object to check
+     * @return true if its equal
+     */
+    public boolean equals(Payment P) {
+        return super.equals(P) && (this.outgoingInterest == P.outgoingInterest && P.incomingInterest == P.incomingInterest);
     }
 }
