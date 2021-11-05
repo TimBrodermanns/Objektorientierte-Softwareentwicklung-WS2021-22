@@ -4,7 +4,7 @@ package bank;
  * <p>Handels deposits and withdrawals</p>
  * @see bank.Transaction
  */
-public class Payment extends Transaction implements CalculateBill{
+public class Payment extends Transaction{
 
     private double incomingInterest;
     private double outgoingInterest;
@@ -73,19 +73,17 @@ public class Payment extends Transaction implements CalculateBill{
      */
     @Override
     public String toString(){
-        double tmp = this.getAmount();
-        this.setAmount(calculate());
         String ret = super.toString() + "\nIncom-Interest: " + incomingInterest + "\nOutgo-Interest: " + outgoingInterest;
-        this.setAmount(tmp);
         return ret;
     }
 
     /**
-     *  <p>Calculates the new ammount of your balance</p>
+     *  <p>Calculates the new amount of your balance</p>
      * @return new balance
      */
     public double calculate(){
-        return (this.getAmount() > 0) ? (this.getAmount() - this.getAmount()*incomingInterest) : (this.getAmount() + this.getAmount()*this.outgoingInterest);
+        this.setAmount((this.getAmount() > 0) ? (this.getAmount() - this.getAmount()*incomingInterest) : (this.getAmount() + this.getAmount()*this.outgoingInterest));
+        return this.getAmount();
     }
 
     /**

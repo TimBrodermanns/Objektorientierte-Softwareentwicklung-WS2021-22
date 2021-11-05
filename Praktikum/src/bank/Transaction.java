@@ -4,7 +4,7 @@ package bank;
 /**
  * <p>Super Class for all Transaction</p>
  */
-public abstract class Transaction {
+public abstract class Transaction implements CalculateBill {
     private String date;
     private double amount;
     private String description;

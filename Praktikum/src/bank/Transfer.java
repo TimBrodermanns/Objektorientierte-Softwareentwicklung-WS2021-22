@@ -90,4 +90,5 @@ public class Transfer extends Transaction {
     public boolean equals(Transfer T) {
         return super.equals(T) && (this.sender == T.sender && this.recipient == T.recipient);
     }
+
 }
