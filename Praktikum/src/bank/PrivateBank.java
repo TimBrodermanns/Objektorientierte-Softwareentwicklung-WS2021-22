@@ -114,7 +114,6 @@ public class PrivateBank implements Bank{
         this.outgoingInterest = outgoingInterest;
     }
 
-
     public String getName() {
         return name;
     }
@@ -134,8 +133,8 @@ public class PrivateBank implements Bank{
 
     @Override
     public boolean equals(Object o){
-        //if(o == null) throw new NullPointerException();
-        //if(o.getClass() != PrivateBank.class) throw new IllegalArgumentException();
+        if(o == null) throw new NullPointerException();
+        if(o.getClass() != PrivateBank.class) throw new IllegalArgumentException();
         PrivateBank b = (PrivateBank)o;
         return this.name.equals(b.name) &&
                 Double.compare(this.incomingInterest, b.incomingInterest) == 0 &&

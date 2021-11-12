@@ -87,12 +87,18 @@ public abstract class Transaction implements CalculateBill {
         return "\nDate: \t\t\t" + date +"\nAmount: \t\t" + amount+ "\nDescription: \t" + description;
     }
 
+
     /**
      * <p>Checks if to Objects are Equal</p>
-     * @param T Transfer object to check
+     * @param obj Transfer object to check
      * @return true if its equal
      */
-    public boolean equals(Transaction T){
-        return this.description == T.description && this.amount == T.amount && this.date == T.date;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        final Transaction other = (Transaction) obj;
+        return this.description.equals(other.description)  && Double.compare(this.amount, other.amount) == 0 && this.date.equals(other.date);
     }
 }

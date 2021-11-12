@@ -9,7 +9,6 @@ public class Payment extends Transaction{
     private double incomingInterest;
     private double outgoingInterest;
 
-
     /**
      *
      *  <p>creates a payment object</p>
@@ -88,10 +87,14 @@ public class Payment extends Transaction{
 
     /**
      * <p>Checks if to Objects are Equal</p>
-     * @param P Payment object to check
+     * @param obj Payment object to check
      * @return true if its equal
      */
-    public boolean equals(Payment P) {
-        return super.equals(P) && (this.outgoingInterest == P.outgoingInterest && P.incomingInterest == P.incomingInterest);
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        final Payment other = (Payment) obj;
+        return super.equals(other) && (Double.compare(this.outgoingInterest, other.outgoingInterest) == 0  && Double.compare(other.incomingInterest, other.incomingInterest)== 0);
     }
 }

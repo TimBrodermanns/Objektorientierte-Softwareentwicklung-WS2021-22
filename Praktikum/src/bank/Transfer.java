@@ -84,11 +84,15 @@ public class Transfer extends Transaction {
 
     /**
      * <p>Checks if to Objects are Equal</p>
-     * @param T Transfer object to check
+     * @param obj Transfer object to check
      * @return true if its equal
      */
-    public boolean equals(Transfer T) {
-        return super.equals(T) && (this.sender == T.sender && this.recipient == T.recipient);
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        final Transfer other = (Transfer) obj;
+        return super.equals(other) && (this.sender.equals(other.sender) && this.recipient.equals(other.recipient));
     }
 
 }
