@@ -5,10 +5,7 @@ import bank.exceptions.AccountDoesNotExistException;
 import bank.exceptions.TransactionAlreadyExistException;
 import bank.exceptions.TransactionDoesNotExistException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Comparator;
+import java.util.*;
 
 public class PrivateBank implements Bank{
     private String name;
@@ -16,10 +13,25 @@ public class PrivateBank implements Bank{
     private double outgoingInterest;
     private Map<String, List<Transaction>> accountsToTransactions;
 
+    public PrivateBank(){
+        this.accountsToTransactions = new HashMap<String, List<Transaction>>();
+    }
+
+    public PrivateBank(String name, double incomming, double outgoing, Map<String, List<Transaction>> accountes){
+        this.name = name;
+        this.incomingInterest = incomming;
+        this.outgoingInterest = outgoing;
+        this.accountsToTransactions = accountes;
+    }
+    public PrivateBank(PrivateBank p){
+        this(p.name, p.incomingInterest, p.outgoingInterest,p.accountsToTransactions);
+    }
+
+
     public void createAccount(String account) throws AccountAlreadyExistsException{
         if(accountsToTransactions.containsKey(account))
             throw new AccountAlreadyExistsException();
-        accountsToTransactions.put(account, null);
+        accountsToTransactions.put(account, new ArrayList<Transaction>());
     }
 
     public void createAccount(String account, List<Transaction> transactions) throws AccountAlreadyExistsException{
@@ -113,5 +125,21 @@ public class PrivateBank implements Bank{
 
     public double getOutgoingInterest() {
         return outgoingInterest;
+    }
+
+    @Override
+    public String toString(){
+        return this.name + " "+ this.incomingInterest + this.outgoingInterest + " " + this.accountsToTransactions.toString();
+    }
+
+    @Override
+    public boolean equals(Object o){
+        //if(o == null) throw new NullPointerException();
+        //if(o.getClass() != PrivateBank.class) throw new IllegalArgumentException();
+        PrivateBank b = (PrivateBank)o;
+        return this.name.equals(b.name) &&
+                Double.compare(this.incomingInterest, b.incomingInterest) == 0 &&
+                Double.compare(this.outgoingInterest, b.outgoingInterest) == 0 &&
+                this.accountsToTransactions.equals(b.accountsToTransactions);
     }
 }
