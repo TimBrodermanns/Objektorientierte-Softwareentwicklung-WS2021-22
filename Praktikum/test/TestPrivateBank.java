@@ -2,13 +2,13 @@ import bank.PrivateBank;
 import bank.exceptions.AccountAlreadyExistsException;
 import bank.exceptions.AccountDoesNotExistException;
 import bank.exceptions.TransactionAlreadyExistException;
+import bank.exceptions.TransactionDoesNotExistException;
 import org.junit.jupiter.api.*;
 import bank.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,12 +78,21 @@ public class TestPrivateBank {
     @Test
     public void TestRemoveTransaction(){
         PrivateBank pb = new PrivateBank();
-        Payment p = new Payment("Three", 1,"",1,1);
+        Payment p = new Payment("Four", 1,"",1,1);
         ArrayList<Transaction> list = new ArrayList<>();
         list.add(new Payment("One", 1,"",1,1));
         list.add(new Payment("Two", 1,"",1,1));
         list.add(new Payment("Three", 1,"",1,1));
         pb.createAccount("User1", list);
+
+        Exception exception = assertThrows(AccountDoesNotExistException.class, () -> {
+            pb.removeTransaction("User", p);
+        });
+
+        Exception exception1 = assertThrows(TransactionDoesNotExistException.class, () -> {
+            pb.removeTransaction("User1", p);
+        });
+
         pb.addTransaction("User1", p);
         assertTrue(pb.containsTransaction("User1", p));
         pb.removeTransaction("User1",p);
@@ -100,5 +109,38 @@ public class TestPrivateBank {
         assertTrue(pb.getAccountBalance("User") == 1000);
         pb.addTransaction("User", new Payment("Three", -50,"",0.1,0.1));
         assertTrue(pb.getAccountBalance("User") == 950);
+    }
+
+    @Test
+    public void TestGetTransactionsSorted(){
+        PrivateBank pb = new PrivateBank();
+        ArrayList<Transaction> list = new ArrayList<>();
+        list.add(new Payment("One", 1000,"",1,1));
+        list.add(new Payment("Two", 3000,"",1,1));
+        list.add(new Payment("Three", 2000,"",1,1));
+        pb.createAccount("User1", list);
+        assertTrue(pb.getTransactionsSorted("User1", true).get(0).getAmount() == 1000);
+        assertTrue(pb.getTransactionsSorted("User1", true).get(1).getAmount() == 2000);
+        assertTrue(pb.getTransactionsSorted("User1", true).get(2).getAmount() == 3000);
+        assertTrue(pb.getTransactionsSorted("User1", false).get(0).getAmount() == 3000);
+        assertTrue(pb.getTransactionsSorted("User1", false).get(1).getAmount() == 2000);
+        assertTrue(pb.getTransactionsSorted("User1", false).get(2).getAmount() == 1000);
+    }
+
+    @Test
+    public void TestgetTransactionsByType(){
+        PrivateBank pb = new PrivateBank();
+        ArrayList<Transaction> list = new ArrayList<>();
+        list.add(new Payment("One", 1000,"",1,1));
+        list.add(new Payment("Two", -3000,"",1,1));
+        list.add(new Payment("Three", 2000,"",1,1));
+        pb.createAccount("User1", list);
+        assertTrue(pb.getTransactionsByType("User1", true).get(0).getAmount() == 1000);
+        assertTrue(pb.getTransactionsByType("User1", true).get(1).getAmount() == 2000);
+        assertFalse(pb.getTransactionsByType("User1", true).contains(list.get(1)));
+        assertTrue(pb.getTransactionsByType("User1", false).get(0).getAmount() == -3000);
+        assertFalse(pb.getTransactionsByType("User1", false).contains(list.get(0)));
+        assertFalse(pb.getTransactionsByType("User1", false).contains(list.get(2)));
+
     }
 }

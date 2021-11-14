@@ -63,10 +63,12 @@ public class PrivateBank implements Bank{
         accountsToTransactions.put(account, tmp);
     }
 
-    public void removeTransaction(String account, Transaction transaction) throws TransactionDoesNotExistException{
-        if(!accountsToTransactions.containsKey(account)) return;
-        if(!accountsToTransactions.get(account).contains(transaction)) throw new TransactionDoesNotExistException();
-        accountsToTransactions.get(account).remove(transaction);
+    public void removeTransaction(String account, Transaction transaction) throws TransactionDoesNotExistException, AccountDoesNotExistException{
+        if(!accountsToTransactions.containsKey(account)) throw new AccountDoesNotExistException();
+        if(accountsToTransactions.get(account).contains(transaction))
+            accountsToTransactions.get(account).remove(transaction);
+        else
+            throw new TransactionDoesNotExistException();
     }
 
     public boolean containsTransaction(String account, Transaction transaction){
@@ -90,6 +92,7 @@ public class PrivateBank implements Bank{
     public List<Transaction> getTransactionsSorted(String account, boolean asc){
         List<Transaction> tmp = accountsToTransactions.get(account);
         tmp.sort( Comparator.comparing(Transaction::getAmount));
+        if(!asc) Collections.reverse(tmp);
         return tmp;
     }
 
