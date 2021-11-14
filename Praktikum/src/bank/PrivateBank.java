@@ -76,10 +76,9 @@ public class PrivateBank implements Bank{
         return accountsToTransactions.get(account).contains(transaction);
     }
 
-
     public double getAccountBalance(String account){
         double balance = 0.0;
-        for(Transaction b : accountsToTransactions.get(account)) balance += b.calculate();
+        for(Transaction b : accountsToTransactions.get(account)) balance += (b.getClass() == Payment.class) ?  b.calculate() : b.getAmount();
         return balance;
     }
 
