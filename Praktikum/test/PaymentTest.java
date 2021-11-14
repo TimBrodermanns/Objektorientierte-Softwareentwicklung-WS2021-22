@@ -15,10 +15,10 @@ public class PaymentTest {
     public void TestCalculate(){
         Payment p1 = new Payment("13.10.2021", 1000, "Test Incomming", 0.05, 0.1);
         p1.calculate();
-        assertEquals(p1.getAmount(), 950);
+        assertEquals(p1.calculate(), 950);
         Payment p2 = new Payment("13.10.2021", -1000, "Test Incomming", 0.05, 0.1);
         p2.calculate();
-        assertEquals(p2.getAmount(), -1100);
+        assertEquals(p2.calculate(), -1100);
     }
 
     @Test

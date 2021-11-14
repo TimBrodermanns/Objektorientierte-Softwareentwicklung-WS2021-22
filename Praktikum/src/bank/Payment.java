@@ -81,8 +81,7 @@ public class Payment extends Transaction{
      * @return new balance
      */
     public double calculate(){
-        this.setAmount((this.getAmount() > 0) ? (this.getAmount() - this.getAmount()*incomingInterest) : (this.getAmount() + this.getAmount()*this.outgoingInterest));
-        return this.getAmount();
+        return (this.getAmount() > 0) ? (this.getAmount() - this.getAmount()*incomingInterest) : (this.getAmount() + this.getAmount()*this.outgoingInterest);
     }
 
     /**

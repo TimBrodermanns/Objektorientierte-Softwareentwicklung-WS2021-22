@@ -106,9 +106,9 @@ public class TestPrivateBank {
         pb.setOutgoingInterest(0.01);
         pb.createAccount("User");
         pb.addTransaction("User", new Payment("Three", 1000,"",0.1,0.1));
-        assertTrue(pb.getAccountBalance("User") == 1000);
-        pb.addTransaction("User", new Payment("Three", -50,"",0.1,0.1));
         assertTrue(pb.getAccountBalance("User") == 950);
+        pb.addTransaction("User", new Payment("Three", -50,"",0.1,0.1));
+        assertTrue(pb.getAccountBalance("User") == 899.5);
     }
 
     @Test

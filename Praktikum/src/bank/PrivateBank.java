@@ -79,9 +79,7 @@ public class PrivateBank implements Bank{
 
     public double getAccountBalance(String account){
         double balance = 0.0;
-        for(Transaction b : accountsToTransactions.get(account)){
-            balance = balance + b.getAmount();
-        }
+        for(Transaction b : accountsToTransactions.get(account)) balance += b.calculate();
         return balance;
     }
 
