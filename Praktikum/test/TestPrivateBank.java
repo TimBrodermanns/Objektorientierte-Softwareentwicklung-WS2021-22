@@ -53,14 +53,33 @@ public class TestPrivateBank {
     public void TestAddTransaction(){
         PrivateBank pb = new PrivateBank();
         Payment p = new Payment("twice", 1,"",1,1);
-        pb.createAccount("User1");
-        pb.addTransaction("User1", p);
+        pb.createAccount("User");
+        pb.addTransaction("User", p);
         Exception exception = assertThrows(AccountDoesNotExistException.class, () -> {
-            pb.addTransaction("User", p);
-        });
-        Exception exception1 = assertThrows(TransactionAlreadyExistException.class, () -> {
             pb.addTransaction("User1", p);
         });
+        Exception exception1 = assertThrows(TransactionAlreadyExistException.class, () -> {
+            pb.addTransaction("User", p);
+        });
+
+        pb.createAccount("User1");
+        Exception exception2 = assertThrows(AccountDoesNotExistException.class, () -> {
+            pb.addTransaction("User1", new Transfer("Four", 100,"","I DO NOT EXIST","User"));
+        });
+        assertEquals(exception2.getMessage(), "Sender does not Exist");
+
+        Exception exception3 = assertThrows(AccountDoesNotExistException.class, () -> {
+            pb.addTransaction("User1", new Transfer("Four", 100,"","User1","I DO NOT EXIST"));
+        });
+        assertEquals(exception3.getMessage(), "Recipient does not Exist");
+
+        pb.createAccount("User2");
+        Exception exception4 = assertThrows(TransferNotValid.class, () -> {
+            pb.addTransaction("User1", new Transfer("Four", 100,"","User","User1"));
+        });
+        assertEquals(exception4.getMessage(), "You can only make Transfers for your own account");
+
+
     }
 
     @Test
@@ -119,23 +138,6 @@ public class TestPrivateBank {
         pb.addTransaction("User1", new Transfer("Four", 100,"","User1","User"));
         assertTrue(pb.getAccountBalance("User1") == 850);
         assertTrue(pb.getAccountBalance("User") == 999.5);
-
-        Exception exception = assertThrows(AccountDoesNotExistException.class, () -> {
-            pb.addTransaction("User1", new Transfer("Four", 100,"","I DO NOT EXIST","User"));
-        });
-        assertEquals(exception.getMessage(), "Sender does not Exist");
-
-        Exception exception1 = assertThrows(AccountDoesNotExistException.class, () -> {
-            pb.addTransaction("User1", new Transfer("Four", 100,"","User1","I DO NOT EXIST"));
-        });
-        assertEquals(exception1.getMessage(), "Recipient does not Exist");
-
-        pb.createAccount("User2");
-        Exception exception2 = assertThrows(TransferNotValid.class, () -> {
-            pb.addTransaction("User1", new Transfer("Four", 100,"","User","User1"));
-        });
-        assertEquals(exception2.getMessage(), "You can only make Transfers for your own account");
-
     }
 
     @Test
