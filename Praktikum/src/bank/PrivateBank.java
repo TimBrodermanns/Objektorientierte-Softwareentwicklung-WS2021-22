@@ -1,16 +1,13 @@
 package bank;
 
-import bank.exceptions.AccountAlreadyExistsException;
-import bank.exceptions.AccountDoesNotExistException;
-import bank.exceptions.TransactionAlreadyExistException;
-import bank.exceptions.TransactionDoesNotExistException;
+import bank.exceptions.*;
 
 import java.util.*;
 
 public class PrivateBank implements Bank{
-    private String name;
-    private double incomingInterest;
-    private double outgoingInterest;
+    private String name = "PLACEHOLDER";
+    private double incomingInterest = 0.0;
+    private double outgoingInterest = 0.0;
     private Map<String, List<Transaction>> accountsToTransactions;
 
     public PrivateBank(){
@@ -56,11 +53,26 @@ public class PrivateBank implements Bank{
         if(transaction.getClass() == Payment.class ){
             ((Payment) transaction).setIncomingInterest(this.incomingInterest);
             ((Payment) transaction).setOutgoingInterest(this.outgoingInterest);
+            List<Transaction> tmp = accountsToTransactions.get(account);
+            tmp.add(transaction);
+            accountsToTransactions.put(account, tmp);
         }
 
-        List<Transaction> tmp = accountsToTransactions.get(account);
-        tmp.add(transaction);
-        accountsToTransactions.put(account, tmp);
+        if(transaction.getClass() == Transfer.class){
+            if(!accountsToTransactions.containsKey(((Transfer) transaction).getRecipient())) throw new AccountDoesNotExistException("Recipient does not Exist");
+            if(!accountsToTransactions.containsKey(((Transfer) transaction).getSender())) throw new AccountDoesNotExistException("Sender does not Exist");
+            if(((Transfer) transaction).getSender() != account) throw new TransferNotValid("You can only make Transfers for your own account");
+            IncomingTransfer ic = new IncomingTransfer((Transfer)transaction);
+            OutgoingTransfer oc = new OutgoingTransfer((Transfer)transaction);
+            // Override List at Senders Account
+            List<Transaction> newSenderList = accountsToTransactions.get(((Transfer) transaction).getSender());
+            newSenderList.add(oc);
+            accountsToTransactions.put(((Transfer) transaction).getSender(), newSenderList);
+            // Override List at Recipients account
+            List<Transaction> newRecipientList = accountsToTransactions.get(((Transfer) transaction).getRecipient());
+            newRecipientList.add(ic);
+            accountsToTransactions.put(((Transfer) transaction).getRecipient(), newRecipientList);
+        }
     }
 
     public void removeTransaction(String account, Transaction transaction) throws TransactionDoesNotExistException, AccountDoesNotExistException{
@@ -78,7 +90,7 @@ public class PrivateBank implements Bank{
 
     public double getAccountBalance(String account){
         double balance = 0.0;
-        for(Transaction b : accountsToTransactions.get(account)) balance += (b.getClass() == Payment.class) ?  b.calculate() : b.getAmount();
+        for(Transaction b : accountsToTransactions.get(account)) balance += b.calculate();
         return balance;
     }
 
@@ -128,7 +140,7 @@ public class PrivateBank implements Bank{
 
     @Override
     public String toString(){
-        return this.name + " "+ this.incomingInterest + this.outgoingInterest + " " + this.accountsToTransactions.toString();
+        return this.name + "\n"+ this.incomingInterest + "\n" + this.outgoingInterest + "\n" + this.accountsToTransactions.toString();
     }
 
     @Override

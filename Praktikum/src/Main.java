@@ -1,22 +1,18 @@
 
 import bank.*;
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args){
+        PrivateBank pb = new PrivateBank();
+        ArrayList<Transaction> list = new ArrayList<>();
+        list.add(new Payment("One", 1000,"",1,1));
+        list.add(new Payment("Two", 3000,"",1,1));
+        list.add(new Payment("Three", 2000,"",1,1));
+        pb.createAccount("User1", list);
 
-        Payment p1 = new Payment("13.10.2021", 1000, "Test Incomming", 0.05, 0.1);
-        Payment p2 = new Payment("13.10.2021", -1000, "Test Incomming", 0.05, 0.1);
+        System.out.println(pb.toString());
 
-        Transfer t1 = new Transfer("13.10.2021", 1000, "Eine andere Beschreibung", "Der Sender", "Der Empfänger");
-        Transfer t2 = new Transfer("13.10.2021", -1000, "Eine andere Beschreibung", "Der Sender", "Der Empfänger");
-
-        p1.calculate();
-        p2.calculate();
-        System.out.println(p1.toString());
-        System.out.println(p2.toString());
-        System.out.println(t1.toString());
-        System.out.println(t2.toString());
     }
-
-
 }
