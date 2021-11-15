@@ -170,6 +170,6 @@ public class TestPrivateBank {
         assertTrue(pb.getTransactionsByType("User1", false).get(0).getAmount() == -3000);
         assertFalse(pb.getTransactionsByType("User1", false).contains(list.get(0)));
         assertFalse(pb.getTransactionsByType("User1", false).contains(list.get(2)));
-
     }
+
 }
