@@ -2,6 +2,12 @@ package bank;
 
 import bank.exceptions.*;
 
+import com.google.gson.*;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class PrivateBank implements Bank{
@@ -9,19 +15,62 @@ public class PrivateBank implements Bank{
     private double incomingInterest = 0.0;
     private double outgoingInterest = 0.0;
     private Map<String, List<Transaction>> accountsToTransactions;
+    private String  directoryName = name +"-Accounts";
 
+
+    /***
+     * std constructor for PrivateBank
+     */
     public PrivateBank(){
         this.accountsToTransactions = new HashMap<String, List<Transaction>>();
     }
 
-    public PrivateBank(String name, double incomming, double outgoing, Map<String, List<Transaction>> accountes){
+    /**
+     * Constructor with parameters
+     * @param name      Sets name of Bank
+     * @param incomming Sets incoming Interest
+     * @param outgoing  Sets outgoing Interest
+     */
+    public PrivateBank(String name, double incomming, double outgoing){
         this.name = name;
         this.incomingInterest = incomming;
         this.outgoingInterest = outgoing;
-        this.accountsToTransactions = accountes;
+        this.accountsToTransactions = new HashMap<String, List<Transaction>>();
     }
+
+    /**
+     * Copy constructor
+     * @param p object to copy
+     */
     public PrivateBank(PrivateBank p){
-        this(p.name, p.incomingInterest, p.outgoingInterest,p.accountsToTransactions);
+        this(p.name, p.incomingInterest, p.outgoingInterest);
+    }
+
+    public void readAccounts() throws IOException {
+
+        Gson gson = new Gson();
+
+        File f = new File(this.directoryName);
+
+        FileReader fr = new FileReader(f);
+        System.out.println(fr.read());;
+
+        //List<Transaction> myobject = gson.fromJson(, List.class);
+        //System.out.println(myobject.toString());
+
+    }
+
+    public void writeAccount(String Account) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try {
+            File f = new File(directoryName + "\\" + Account + ".json");
+            f.getParentFile().mkdirs();
+            FileWriter writer = new FileWriter(f.getAbsolutePath());
+            gson.toJson(accountsToTransactions.get(Account), writer);
+            writer.close();
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     public void createAccount(String account) throws AccountAlreadyExistsException{
@@ -49,7 +98,7 @@ public class PrivateBank implements Bank{
         if(accountsToTransactions.get(account).contains(transaction))
             throw new TransactionAlreadyExistException();
 
-        if(transaction.getClass() == Payment.class ){
+        if(transaction instanceof Payment){
             ((Payment) transaction).setIncomingInterest(this.incomingInterest);
             ((Payment) transaction).setOutgoingInterest(this.outgoingInterest);
             List<Transaction> tmp = accountsToTransactions.get(account);
@@ -57,16 +106,19 @@ public class PrivateBank implements Bank{
             accountsToTransactions.put(account, tmp);
         }
 
-        if(transaction.getClass() == Transfer.class){
+        if(transaction instanceof Transfer){
             if(!accountsToTransactions.containsKey(((Transfer) transaction).getRecipient())) throw new AccountDoesNotExistException("Recipient does not Exist");
             if(!accountsToTransactions.containsKey(((Transfer) transaction).getSender())) throw new AccountDoesNotExistException("Sender does not Exist");
-            if(((Transfer) transaction).getSender() != account) throw new TransferNotValid("You can only make Transfers for your own account");
+            if(((Transfer) transaction).getSender() != account) throw new TransferNotValidException("You can only make Transfers for your own account");
+
             IncomingTransfer ic = new IncomingTransfer((Transfer)transaction);
             OutgoingTransfer oc = new OutgoingTransfer((Transfer)transaction);
+
             // Override List at Senders Account
             List<Transaction> newSenderList = accountsToTransactions.get(((Transfer) transaction).getSender());
             newSenderList.add(oc);
             accountsToTransactions.put(((Transfer) transaction).getSender(), newSenderList);
+
             // Override List at Recipients account
             List<Transaction> newRecipientList = accountsToTransactions.get(((Transfer) transaction).getRecipient());
             newRecipientList.add(ic);
@@ -145,9 +197,9 @@ public class PrivateBank implements Bank{
     @Override
     public boolean equals(Object o){
         if(o == null) throw new NullPointerException();
-        if(o.getClass() != PrivateBank.class) throw new IllegalArgumentException();
+        if(!(o instanceof PrivateBank)) throw new IllegalArgumentException();
         PrivateBank b = (PrivateBank)o;
-        return this.name.equals(b.name) &&
+        return  this.name.equals(b.name) &&
                 Double.compare(this.incomingInterest, b.incomingInterest) == 0 &&
                 Double.compare(this.outgoingInterest, b.outgoingInterest) == 0 &&
                 this.accountsToTransactions.equals(b.accountsToTransactions);

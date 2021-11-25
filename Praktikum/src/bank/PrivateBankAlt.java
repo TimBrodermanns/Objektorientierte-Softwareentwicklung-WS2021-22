@@ -71,8 +71,6 @@ public class PrivateBankAlt implements Bank{
         return accountsToTransactions.get(account).contains(transaction);
     }
 
-
-    // !!! O(n*n1) n ∈ ℕ n1 ∈ ℕ -> n > 1 | n1 > 0 || Please Refector in later Versions !!!
     public double getAccountBalance(String account){
         double balance = 0.0;
         double  balanceFromTransactionwithOthers = 0;

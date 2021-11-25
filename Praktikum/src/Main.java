@@ -11,8 +11,18 @@ public class Main {
         list.add(new Payment("Two", 3000,"",1,1));
         list.add(new Payment("Three", 2000,"",1,1));
         pb.createAccount("User1", list);
+        try {
+            pb.writeAccount("User1");
 
-        System.out.println(pb.toString());
+            pb.readAccounts();
+
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+
+
 
     }
 }

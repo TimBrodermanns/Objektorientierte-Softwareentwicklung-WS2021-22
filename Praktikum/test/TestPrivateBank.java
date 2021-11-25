@@ -12,35 +12,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestPrivateBank {
 
-    private PrivateBank privateBank;
-
-
-
-
     @Test
-    public void TestEqual(){
-
-        HashMap<String, List<Transaction>> m = new HashMap<String, List<Transaction>>();
-        ArrayList<Transaction> l = new ArrayList<>();
-        l.add(new Payment("", 1,"",1,1));
-        l.add(new Payment("", 1,"",2,1));
-
-        PrivateBank p = new PrivateBank("Sparkasse", 0.1,0.1,m);
-        PrivateBank p1 = new PrivateBank("Sparkasse", 0.1,0.1,m);
-        PrivateBank p2 = new PrivateBank("Sparkasse1", 0.1,0.1,m);
+    public void EqualTest(){
+        PrivateBank p = new PrivateBank("Sparkasse", 0.1,0.1);
+        PrivateBank p1 = new PrivateBank("Sparkasse", 0.1,0.1);
+        PrivateBank p2 = new PrivateBank("Sparkasse1", 0.1,0.1);
         assertTrue(p.equals(p));
         assertFalse(p.equals(p2));
     }
     @Test
-    public void TestCopyConstructor(){
-        HashMap<String, List<Transaction>> m = new HashMap<String, List<Transaction>>();
-        PrivateBank p = new PrivateBank("Sparkasse", 0.1,0.1,m);
+    public void CopyConstructorTest(){
+        PrivateBank p = new PrivateBank("Sparkasse", 0.1,0.1);
         PrivateBank pb = new PrivateBank(p);
         assertTrue(p.equals(pb));
     }
 
     @Test
-    public void TestAccountCreation(){
+    public void AccountCreationTest(){
         PrivateBank pb = new PrivateBank();
         pb.createAccount("User");
         pb.createAccount("User1");
@@ -50,7 +38,7 @@ public class TestPrivateBank {
         });
     }
     @Test
-    public void TestAddTransaction(){
+    public void AddTransactionTest(){
         PrivateBank pb = new PrivateBank();
         Payment p = new Payment("twice", 1,"",1,1);
         pb.createAccount("User");
@@ -74,7 +62,7 @@ public class TestPrivateBank {
         assertEquals(exception3.getMessage(), "Recipient does not Exist");
 
         pb.createAccount("User2");
-        Exception exception4 = assertThrows(TransferNotValid.class, () -> {
+        Exception exception4 = assertThrows(TransferNotValidException.class, () -> {
             pb.addTransaction("User1", new Transfer("Four", 100,"","User","User1"));
         });
         assertEquals(exception4.getMessage(), "You can only make Transfers for your own account");
@@ -83,7 +71,7 @@ public class TestPrivateBank {
     }
 
     @Test
-    public void TestContainsTransaction(){
+    public void ContainsTransactionTest(){
         PrivateBank pb = new PrivateBank();
         ArrayList<Transaction> list = new ArrayList<>();
         list.add(new Payment("One", 1,"",1,1));
@@ -97,7 +85,7 @@ public class TestPrivateBank {
     }
 
     @Test
-    public void TestRemoveTransaction(){
+    public void RemoveTransactionTest(){
         PrivateBank pb = new PrivateBank();
         Payment p = new Payment("Four", 1,"",1,1);
         ArrayList<Transaction> list = new ArrayList<>();
@@ -121,7 +109,7 @@ public class TestPrivateBank {
     }
 
     @Test
-    public void TestGetAccountBalance(){
+    public void GetAccountBalanceTest(){
         PrivateBank pb = new PrivateBank();
         pb.setIncomingInterest(0.05);
         pb.setOutgoingInterest(0.01);
@@ -141,7 +129,7 @@ public class TestPrivateBank {
     }
 
     @Test
-    public void TestGetTransactionsSorted(){
+    public void GetTransactionsSortedTest(){
         PrivateBank pb = new PrivateBank();
         ArrayList<Transaction> list = new ArrayList<>();
         list.add(new Payment("One", 1000,"",1,1));
@@ -157,7 +145,7 @@ public class TestPrivateBank {
     }
 
     @Test
-    public void TestgetTransactionsByType(){
+    public void getTransactionsByTypeTest(){
         PrivateBank pb = new PrivateBank();
         ArrayList<Transaction> list = new ArrayList<>();
         list.add(new Payment("One", 1000,"",1,1));
@@ -171,5 +159,4 @@ public class TestPrivateBank {
         assertFalse(pb.getTransactionsByType("User1", false).contains(list.get(0)));
         assertFalse(pb.getTransactionsByType("User1", false).contains(list.get(2)));
     }
-
 }
