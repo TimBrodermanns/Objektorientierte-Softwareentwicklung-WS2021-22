@@ -38,6 +38,7 @@ public class PrivateBank implements Bank{
         this.accountsToTransactions = new HashMap<String, List<Transaction>>();
     }
 
+
     /**
      * Copy constructor
      * @param p object to copy
