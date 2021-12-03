@@ -23,6 +23,7 @@ public class Payment extends Transaction{
         super(Date,Amount,Description);
         this.incomingInterest = IncomingInterest;
         this.outgoingInterest = OutgoingInterest;
+        this.calculate();
     }
 
     /**

@@ -1,13 +1,22 @@
 package bank;
 
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+
+import java.io.Serializable;
+import java.lang.reflect.Type;
+
 /**
  * <p>Super Class for all Transaction</p>
  */
-public abstract class Transaction implements CalculateBill {
+public abstract class Transaction implements CalculateBill, Serializable {
     private String date;
     private double amount;
     private String description;
+
 
     /**
      *
@@ -18,10 +27,16 @@ public abstract class Transaction implements CalculateBill {
      *  @param Description      Description of the Transaction
      */
 
+
+
     public Transaction(String Date, double Amount, String Description){
         this.date = Date;
         this.amount = Amount;
         this.description = Description;
+    }
+
+    public Transaction(){
+
     }
 
     /**
@@ -86,7 +101,6 @@ public abstract class Transaction implements CalculateBill {
     public String toString(){
         return "\nDate: \t\t\t" + date +"\nAmount: \t\t" + amount+ "\nDescription: \t" + description;
     }
-
 
     /**
      * <p>Checks if to Objects are Equal</p>

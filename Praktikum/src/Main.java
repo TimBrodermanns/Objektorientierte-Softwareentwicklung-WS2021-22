@@ -10,11 +10,16 @@ public class Main {
         list.add(new Payment("One", 1000,"",1,1));
         list.add(new Payment("Two", 3000,"",1,1));
         list.add(new Payment("Three", 2000,"",1,1));
-        pb.createAccount("User1", list);
+        list.add(new Payment("Three", 2000,"",1,1));
+        list.add(new Payment("Three", 2000,"",1,1));
+        list.add(new Payment("Three", 2000,"",1,1));
+        //pb.createAccount("User1", list);
         try {
-            pb.writeAccount("User1");
+            //pb.writeAccount("User1");
 
             pb.readAccounts();
+
+            System.out.println(pb.getAccountBalance("User1"));
 
 
         }catch (Exception e){

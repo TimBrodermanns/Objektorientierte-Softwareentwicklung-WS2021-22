@@ -3,11 +3,10 @@ package bank;
 import bank.exceptions.*;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class PrivateBank implements Bank{
@@ -48,16 +47,29 @@ public class PrivateBank implements Bank{
     }
 
     public void readAccounts() throws IOException {
-
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().registerTypeAdapterFactory(RuntimeClassNameTypeAdapterFactory.of(Object.class)).create();
 
         File f = new File(this.directoryName);
 
-        FileReader fr = new FileReader(f);
-        System.out.println(fr.read());;
+        System.out.println("Starting reading Array");
+        File[] ary = f.listFiles();
+        for(int i = 0; i < ary.length; i++){
+            System.out.println(ary[i].getAbsolutePath());
+        }
 
-        //List<Transaction> myobject = gson.fromJson(, List.class);
-        //System.out.println(myobject.toString());
+        Arrays.stream(f.listFiles()).toList().forEach((fi)->{
+            try {
+                FileReader fr = new FileReader(fi.getAbsolutePath());
+
+                Type listType = new TypeToken<List<Transaction>>(){}.getType();
+                // In this test code i just shove the JSON here as string.
+                List<Transaction> tr = gson.fromJson(fr, listType);
+
+            }catch (FileNotFoundException e){
+                System.out.println("Error in PrivateBank::readAccounts -> " +e.getMessage());
+            }
+
+        });
 
     }
 

@@ -1,0 +1,44 @@
+[
+  {
+    "incomingInterest": 0.0,
+    "outgoingInterest": 0.0,
+    "date": "One",
+    "amount": 1000.0,
+    "description": ""
+  },
+  {
+    "incomingInterest": 0.0,
+    "outgoingInterest": 0.0,
+    "date": "Two",
+    "amount": 3000.0,
+    "description": ""
+  },
+  {
+    "incomingInterest": 0.0,
+    "outgoingInterest": 0.0,
+    "date": "Three",
+    "amount": 2000.0,
+    "description": ""
+  },
+  {
+    "incomingInterest": 0.0,
+    "outgoingInterest": 0.0,
+    "date": "Three",
+    "amount": 2000.0,
+    "description": ""
+  },
+  {
+    "incomingInterest": 0.0,
+    "outgoingInterest": 0.0,
+    "date": "Three",
+    "amount": 2000.0,
+    "description": ""
+  },
+  {
+    "incomingInterest": 0.0,
+    "outgoingInterest": 0.0,
+    "date": "Three",
+    "amount": 2000.0,
+    "description": ""
+  }
+]
