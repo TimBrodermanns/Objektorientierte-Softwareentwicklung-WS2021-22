@@ -9,6 +9,11 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 
+
+import com.google.gson.*;
+import java.lang.reflect.Type;
+
+
 public class PrivateBank implements Bank{
     private String name = "PLACEHOLDER";
     private double incomingInterest = 0.0;
@@ -47,40 +52,41 @@ public class PrivateBank implements Bank{
     }
 
     public void readAccounts() throws IOException {
-        Gson gson = new GsonBuilder().registerTypeAdapterFactory(RuntimeClassNameTypeAdapterFactory.of(Object.class)).create();
+        GsonBuilder gsonBilder = new GsonBuilder();
+        gsonBilder.registerTypeAdapter(Transaction.class, new TransactionElementAdapter());
+
+        Gson gson = gsonBilder.create();
 
         File f = new File(this.directoryName);
-
         System.out.println("Starting reading Array");
         File[] ary = f.listFiles();
-        for(int i = 0; i < ary.length; i++){
-            System.out.println(ary[i].getAbsolutePath());
-        }
+        for(int i = 0; i < ary.length; i++) System.out.println(ary[i].getAbsolutePath());
 
         Arrays.stream(f.listFiles()).toList().forEach((fi)->{
             try {
                 FileReader fr = new FileReader(fi.getAbsolutePath());
-
-                Type listType = new TypeToken<List<Transaction>>(){}.getType();
+                Type listType = new TypeToken<Transaction>(){}.getType();
                 // In this test code i just shove the JSON here as string.
                 List<Transaction> tr = gson.fromJson(fr, listType);
-
-            }catch (FileNotFoundException e){
+                this.createAccount(fi.getName().split("\\.")[0], tr);
+            }catch (Exception e){
                 System.out.println("Error in PrivateBank::readAccounts -> " +e.getMessage());
             }
-
         });
-
+        System.out.println(this.accountsToTransactions.toString());
     }
 
     public void writeAccount(String Account) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
             File f = new File(directoryName + "\\" + Account + ".json");
-            f.getParentFile().mkdirs();
+
+            if(!new File(directoryName){}.isDirectory()) f.getParentFile().mkdirs();
+
             FileWriter writer = new FileWriter(f.getAbsolutePath());
             gson.toJson(accountsToTransactions.get(Account), writer);
             writer.close();
+
         }catch (Exception e){
             throw e;
         }
