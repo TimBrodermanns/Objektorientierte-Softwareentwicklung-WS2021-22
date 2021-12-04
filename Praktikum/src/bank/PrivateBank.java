@@ -7,6 +7,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 
@@ -52,9 +54,11 @@ public class PrivateBank implements Bank{
     }
 
     public void readAccounts() throws IOException {
-        GsonBuilder gsonBilder = new GsonBuilder();
-        gsonBilder.registerTypeAdapter(Transaction.class, new TransactionElementAdapter());
 
+
+        TransactionElementAdapter ada = new TransactionElementAdapter();
+        GsonBuilder gsonBilder = new GsonBuilder();
+        gsonBilder.registerTypeHierarchyAdapter(Transaction.class, ada);
         Gson gson = gsonBilder.create();
 
         File f = new File(this.directoryName);
@@ -64,27 +68,52 @@ public class PrivateBank implements Bank{
 
         Arrays.stream(f.listFiles()).toList().forEach((fi)->{
             try {
-                FileReader fr = new FileReader(fi.getAbsolutePath());
                 Type listType = new TypeToken<Transaction>(){}.getType();
-                // In this test code i just shove the JSON here as string.
-                List<Transaction> tr = gson.fromJson(fr, listType);
-                this.createAccount(fi.getName().split("\\.")[0], tr);
+
+                FileReader fr = new FileReader(fi.getAbsolutePath());
+                //String s = new String(Files.readAllBytes(Paths.get(fi.getAbsolutePath())));
+
+                ada.cleanAdapter();
+                gson.fromJson(fr, Transaction.class);
             }catch (Exception e){
                 System.out.println("Error in PrivateBank::readAccounts -> " +e.getMessage());
             }
+            this.createAccount(fi.getName().split("\\.")[0], ada.getTransactions());
         });
         System.out.println(this.accountsToTransactions.toString());
+
+        /*
+        GsonBuilder gson = new GsonBuilder();
+        gson.registerTypeHierarchyAdapter(Transaction.class, new TransactionElementAdapter());
+        Type listType = new TypeToken<Transaction>(){}.getType();
+        File folder = new File(directoryName);
+
+        if(folder.listFiles() != null){
+            for (File f: folder.listFiles()) {
+                System.out.println(f.getAbsolutePath());
+                String s = new String(Files.readAllBytes(Paths.get(f.getAbsolutePath())));
+                List<Transaction> list = gson.create().fromJson(s, listType);
+                this.createAccount(s.split("\\.")[0], list);
+            }
+        }
+        */
+
     }
 
     public void writeAccount(String Account) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeHierarchyAdapter(Transaction.class, new TransactionElementAdapter())
+                .create();
         try {
             File f = new File(directoryName + "\\" + Account + ".json");
 
             if(!new File(directoryName){}.isDirectory()) f.getParentFile().mkdirs();
 
             FileWriter writer = new FileWriter(f.getAbsolutePath());
+
             gson.toJson(accountsToTransactions.get(Account), writer);
+
             writer.close();
 
         }catch (Exception e){
