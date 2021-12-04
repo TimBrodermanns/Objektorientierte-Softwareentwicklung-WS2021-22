@@ -44,6 +44,7 @@ public class TransactionElementAdapter implements JsonSerializer<Transaction>, J
     @Override
     public Transaction deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
+        // from here
         JsonArray ary = json.getAsJsonArray();
         System.out.println(ary.size());
         for (int i = 0; i < ary.size(); i++){
@@ -58,6 +59,7 @@ public class TransactionElementAdapter implements JsonSerializer<Transaction>, J
                 default -> throw new JsonParseException("Unknown Typ");
             }
         }
+        // To here is BODGE!
 
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("CLASSNAME").getAsString();
