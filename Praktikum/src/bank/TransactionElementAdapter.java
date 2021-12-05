@@ -27,6 +27,7 @@ public class TransactionElementAdapter implements JsonSerializer<Transaction>, J
         instance.addProperty("date", src.getDate());
         instance.addProperty("amount", src.getAmount());
         instance.addProperty("description", src.getDescription());
+
         if(src instanceof Payment){
             Payment p = (Payment) src;
             instance.addProperty("IncomingInterest", p.getIncomingInterest());
@@ -61,6 +62,13 @@ public class TransactionElementAdapter implements JsonSerializer<Transaction>, J
         }
         // To here is BODGE!
 
+        return new Transaction() {
+            @Override
+            public double calculate() {
+                return 0;
+            }
+        };
+/*
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("CLASSNAME").getAsString();
         JsonElement element = jsonObject.get("INSTANCE");
@@ -73,5 +81,7 @@ public class TransactionElementAdapter implements JsonSerializer<Transaction>, J
             case "Transfer" -> (new Gson().fromJson(element, Transfer.class));
             default -> throw new JsonParseException("Unknown Typ");
         };
+
+ */
     }
 }

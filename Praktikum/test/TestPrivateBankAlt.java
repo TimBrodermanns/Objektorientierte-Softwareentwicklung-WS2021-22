@@ -13,6 +13,7 @@ public class TestPrivateBankAlt {
         pb.setIncomingInterest(0.05);
         pb.setOutgoingInterest(0.01);
         pb.createAccount("User");
+        try{
         pb.addTransaction("User", new Payment("One", 1000,"",0.1,0.1));
         assertTrue(pb.getAccountBalance("User") == 950);
         pb.addTransaction("User", new Payment("Two", -50,"",0.1,0.1));
@@ -25,5 +26,8 @@ public class TestPrivateBankAlt {
         pb.addTransaction("User1", new Transfer("Four", 100,"","User1","User"));
         assertTrue(pb.getAccountBalance("User1") == 850);
         assertTrue(pb.getAccountBalance("User") == 999.5);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

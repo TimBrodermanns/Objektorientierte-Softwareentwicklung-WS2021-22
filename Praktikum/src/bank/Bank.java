@@ -5,6 +5,7 @@ import bank.exceptions.AccountAlreadyExistsException;
 import bank.exceptions.TransactionAlreadyExistException;
 import bank.exceptions.TransactionDoesNotExistException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -40,7 +41,7 @@ public interface Bank {
      * @throws TransactionAlreadyExistException if the transaction already exists
      */
     void addTransaction(String account, Transaction transaction)
-            throws TransactionAlreadyExistException, AccountDoesNotExistException;
+            throws TransactionAlreadyExistException, AccountDoesNotExistException, IOException;
 
     /**
      * Removes a transaction from an account. If the transaction does not exist, an exception is

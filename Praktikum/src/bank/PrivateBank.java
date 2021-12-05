@@ -20,8 +20,8 @@ public class PrivateBank implements Bank{
     private String name = "PLACEHOLDER";
     private double incomingInterest = 0.0;
     private double outgoingInterest = 0.0;
-    private Map<String, List<Transaction>> accountsToTransactions;
-    private String  directoryName = name +"-Accounts";
+    protected Map<String, List<Transaction>> accountsToTransactions;
+    private String  directoryName;
 
 
     /***
@@ -42,6 +42,12 @@ public class PrivateBank implements Bank{
         this.incomingInterest = incomming;
         this.outgoingInterest = outgoing;
         this.accountsToTransactions = new HashMap<String, List<Transaction>>();
+        this.directoryName = name + "-Accounts";
+        try {
+            this.readAccounts();
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -51,17 +57,17 @@ public class PrivateBank implements Bank{
      */
     public PrivateBank(PrivateBank p){
         this(p.name, p.incomingInterest, p.outgoingInterest);
+        this.accountsToTransactions = p.accountsToTransactions;
     }
 
     public void readAccounts() throws IOException {
-
-
         TransactionElementAdapter ada = new TransactionElementAdapter();
         GsonBuilder gsonBilder = new GsonBuilder();
         gsonBilder.registerTypeHierarchyAdapter(Transaction.class, ada);
         Gson gson = gsonBilder.create();
 
         File f = new File(this.directoryName);
+        if(!f.exists()) return;
         System.out.println("Starting reading Array");
         File[] ary = f.listFiles();
         for(int i = 0; i < ary.length; i++) System.out.println(ary[i].getAbsolutePath());
@@ -69,12 +75,9 @@ public class PrivateBank implements Bank{
         Arrays.stream(f.listFiles()).toList().forEach((fi)->{
             try {
                 Type listType = new TypeToken<Transaction>(){}.getType();
-
                 FileReader fr = new FileReader(fi.getAbsolutePath());
-                //String s = new String(Files.readAllBytes(Paths.get(fi.getAbsolutePath())));
-
                 ada.cleanAdapter();
-                gson.fromJson(fr, Transaction.class);
+                gson.fromJson(fr, listType);
             }catch (Exception e){
                 System.out.println("Error in PrivateBank::readAccounts -> " +e.getMessage());
             }
@@ -107,15 +110,10 @@ public class PrivateBank implements Bank{
                 .create();
         try {
             File f = new File(directoryName + "\\" + Account + ".json");
-
             if(!new File(directoryName){}.isDirectory()) f.getParentFile().mkdirs();
-
             FileWriter writer = new FileWriter(f.getAbsolutePath());
-
             gson.toJson(accountsToTransactions.get(Account), writer);
-
             writer.close();
-
         }catch (Exception e){
             throw e;
         }
@@ -140,7 +138,7 @@ public class PrivateBank implements Bank{
         accountsToTransactions.put(account, transactions);
     }
 
-    public void addTransaction(String account, Transaction transaction) throws TransactionAlreadyExistException, AccountDoesNotExistException{
+    public void addTransaction(String account, Transaction transaction) throws TransactionAlreadyExistException, AccountDoesNotExistException, IOException{
         if(!accountsToTransactions.containsKey(account))
             throw new AccountDoesNotExistException();
         if(accountsToTransactions.get(account).contains(transaction))
@@ -172,6 +170,8 @@ public class PrivateBank implements Bank{
             newRecipientList.add(ic);
             accountsToTransactions.put(((Transfer) transaction).getRecipient(), newRecipientList);
         }
+        this.writeAccount(account);
+
     }
 
     public void removeTransaction(String account, Transaction transaction) throws TransactionDoesNotExistException, AccountDoesNotExistException{
@@ -236,6 +236,12 @@ public class PrivateBank implements Bank{
     public double getOutgoingInterest() {
         return outgoingInterest;
     }
+
+    public String getPath(){
+        return new File(directoryName).getPath().toString();
+    }
+
+    public void reset(){ accountsToTransactions = new HashMap<String, List<Transaction>>(); }
 
     @Override
     public String toString(){
