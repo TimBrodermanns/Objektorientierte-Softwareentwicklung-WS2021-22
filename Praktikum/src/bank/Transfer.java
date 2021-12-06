@@ -70,7 +70,7 @@ public class Transfer extends Transaction {
      */
     @Override
     public String toString(){
-        String ret = super.toString() + "\nSender: \t\t" + sender + "\nRecipient: \t\t" + recipient;
+        String ret = super.toString() + ", Sender: " + sender + ", Recipient: " + recipient;
         return ret;
     }
 

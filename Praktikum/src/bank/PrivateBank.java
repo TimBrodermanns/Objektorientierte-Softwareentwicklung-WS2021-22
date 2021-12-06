@@ -62,8 +62,6 @@ public class PrivateBank implements Bank{
 
         File f = new File(this.directoryName);
         if(!f.exists()) return;
-        File[] ary = f.listFiles();
-        for(int i = 0; i < ary.length; i++) System.out.println(ary[i].getAbsolutePath());
 
         Arrays.stream(f.listFiles()).toList().forEach((fi)->{
             try {

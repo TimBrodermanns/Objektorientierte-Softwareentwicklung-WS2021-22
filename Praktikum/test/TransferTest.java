@@ -36,4 +36,8 @@ public class TransferTest {
         assertFalse(p1.equals(i));
     }
 
+    @Test
+    public void TestToString(){
+        assertEquals("Date: 13.10.2021, Amount: 1000.0, Description: Test Incomming, Sender: Sender, Recipient: Recepent", p1.toString());
+    }
 }

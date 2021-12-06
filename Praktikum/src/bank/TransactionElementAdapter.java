@@ -47,7 +47,6 @@ public class TransactionElementAdapter implements JsonSerializer<Transaction>, J
 
         // from here
         JsonArray ary = json.getAsJsonArray();
-        System.out.println(ary.size());
         for (int i = 0; i < ary.size(); i++){
             JsonObject jsonObject = ary.get(i).getAsJsonObject();
             String type = jsonObject.get("CLASSNAME").getAsString();

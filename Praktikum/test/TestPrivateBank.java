@@ -140,9 +140,6 @@ public class TestPrivateBank {
 
     @Test
     public void GetAccountBalanceTest(){
-        System.out.println(privateBank.getAccountBalance("User"));
-        System.out.println(privateBank.getAccountBalance("User1"));
-        System.out.println(privateBank.getAccountBalance("User2"));
         assertEquals(0.9, privateBank.getAccountBalance("User"));
         assertEquals(5400.0,privateBank.getAccountBalance("User1"));
         assertEquals(-600.0, privateBank.getAccountBalance("User2"));
@@ -197,7 +194,6 @@ public class TestPrivateBank {
         File f = new File(privateBank.getPath());
         boolean contains = false;
         for (File fi : f.listFiles()) {
-            System.out.println(fi.getName());
             contains = contains || fi.getName().equals(jsonName);
         }
         assertTrue(contains);
