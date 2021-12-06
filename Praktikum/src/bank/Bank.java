@@ -52,7 +52,7 @@ public interface Bank {
      * @throws TransactionDoesNotExistException if the transaction cannot be found
      */
     void removeTransaction(String account, Transaction transaction)
-            throws TransactionDoesNotExistException;
+            throws TransactionDoesNotExistException, IOException;
 
     /**
      * Checks whether the specified transaction for a given account exists.

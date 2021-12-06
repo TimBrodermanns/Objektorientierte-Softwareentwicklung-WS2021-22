@@ -2,15 +2,18 @@ import bank.PrivateBank;
 import bank.exceptions.*;
 import org.junit.jupiter.api.*;
 import bank.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 
 public class TestPrivateBank {
 
@@ -43,11 +46,9 @@ public class TestPrivateBank {
         }
     }
 
-
-
     @Test
     public void EqualTest(){
-        PrivateBank pb = new PrivateBank("Bank", 0.1,0.1);
+        PrivateBank pb = new PrivateBank("Test", 0.1,0.1);
         pb.reset();
         try{
             pb.createAccount("User");
@@ -70,18 +71,17 @@ public class TestPrivateBank {
 
     @Test
     public void CopyConstructorTest(){
-        assertTrue(privateBank.equals(new PrivateBank(privateBank)));
+        assertEquals(privateBank,new PrivateBank(privateBank));
     }
 
-    @Test
-    public void AccountCreationTest(){
-        privateBank.createAccount("User3");
+    @ParameterizedTest
+    @ValueSource(strings = {"newUser", "newUser1", "newUser2", "newUser3"})
+    public void AccountCreationTest(String Account){
+        privateBank.createAccount(Account);
         Exception exception = assertThrows(AccountAlreadyExistsException.class, () -> {
-            privateBank.createAccount("User3");
+            privateBank.createAccount(Account);
         });
     }
-
-
 
     @Test
     public void AddTransactionTest(){
@@ -124,19 +124,17 @@ public class TestPrivateBank {
     @Test
     public void RemoveTransactionTest(){
         Payment p0 = new Payment("Once", 1,"",1,1);
-        Exception exception = assertThrows(AccountDoesNotExistException.class, () -> {
-            privateBank.removeTransaction("User10", p0);
-        });
-        Exception exception1 = assertThrows(TransactionDoesNotExistException.class, () -> {
-            privateBank.removeTransaction("User1", p0);
-        });
+        Exception exception = assertThrows(AccountDoesNotExistException.class, () -> { privateBank.removeTransaction("User10", p0); });
+        Exception exception1 = assertThrows(TransactionDoesNotExistException.class, () -> { privateBank.removeTransaction("User1", p0); });
         try{
             privateBank.addTransaction("User1", p0);
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
         assertTrue(privateBank.containsTransaction("User1", p0));
-        privateBank.removeTransaction("User1",p0);
+        try {
+            privateBank.removeTransaction("User1", p0);
+        }catch (Exception e){}
         assertFalse(privateBank.containsTransaction("User1", p0));
     }
 
@@ -162,9 +160,7 @@ public class TestPrivateBank {
 
     @Test
     public void getTransactionsByTypeTest(){
-
         List<Transaction> list = new ArrayList<Transaction>();
-
         list.add(new Payment("One", 1000,"",1,1));
         list.add(new Payment("Two", -3000,"",1,1));
         list.add(new Payment("Three", 2000,"",1,1));
@@ -175,5 +171,35 @@ public class TestPrivateBank {
         assertTrue(privateBank.getTransactionsByType("User3", false).get(0).getAmount() == -3000);
         assertFalse(privateBank.getTransactionsByType("User3", false).contains(list.get(0)));
         assertFalse(privateBank.getTransactionsByType("User3", false).contains(list.get(2)));
+    }
+
+    @Test
+    public void TestJson() throws Exception{
+        String expected = "[\n" +
+                "  {\n" +
+                "    \"CLASSNAME\": \"Payment\",\n" +
+                "    \"INSTANCE\": {\n" +
+                "      \"date\": \"twice\",\n" +
+                "      \"amount\": 1.0,\n" +
+                "      \"description\": \"\",\n" +
+                "      \"IncomingInterest\": 0.1,\n" +
+                "      \"OutgoingInterest\": 0.1\n" +
+                "    }\n" +
+                "  }\n" +
+                "]";
+        File file = new File(privateBank.getPath() + "\\User.json");
+        assertEquals(expected, new String(Files.readAllBytes(Paths.get(file.getAbsolutePath()))));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"User.json", "User1.json", "User2.json"})
+    public void TestAllJson(String jsonName){
+        File f = new File(privateBank.getPath());
+        boolean contains = false;
+        for (File fi : f.listFiles()) {
+            System.out.println(fi.getName());
+            contains = contains || fi.getName().equals(jsonName);
+        }
+        assertTrue(contains);
     }
 }

@@ -7,13 +7,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
-
-
-import com.google.gson.*;
-import java.lang.reflect.Type;
 
 
 public class PrivateBank implements Bank{
@@ -60,7 +54,7 @@ public class PrivateBank implements Bank{
         this.accountsToTransactions = p.accountsToTransactions;
     }
 
-    public void readAccounts() throws IOException {
+    private void readAccounts() throws IOException {
         TransactionElementAdapter ada = new TransactionElementAdapter();
         GsonBuilder gsonBilder = new GsonBuilder();
         gsonBilder.registerTypeHierarchyAdapter(Transaction.class, ada);
@@ -68,7 +62,6 @@ public class PrivateBank implements Bank{
 
         File f = new File(this.directoryName);
         if(!f.exists()) return;
-        System.out.println("Starting reading Array");
         File[] ary = f.listFiles();
         for(int i = 0; i < ary.length; i++) System.out.println(ary[i].getAbsolutePath());
 
@@ -83,7 +76,6 @@ public class PrivateBank implements Bank{
             }
             this.createAccount(fi.getName().split("\\.")[0], ada.getTransactions());
         });
-        System.out.println(this.accountsToTransactions.toString());
 
         /*
         GsonBuilder gson = new GsonBuilder();
@@ -103,7 +95,7 @@ public class PrivateBank implements Bank{
 
     }
 
-    public void writeAccount(String Account) throws IOException {
+    private void writeAccount(String Account) throws IOException {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeHierarchyAdapter(Transaction.class, new TransactionElementAdapter())
@@ -174,12 +166,13 @@ public class PrivateBank implements Bank{
 
     }
 
-    public void removeTransaction(String account, Transaction transaction) throws TransactionDoesNotExistException, AccountDoesNotExistException{
+    public void removeTransaction(String account, Transaction transaction) throws TransactionDoesNotExistException, AccountDoesNotExistException, IOException{
         if(!accountsToTransactions.containsKey(account)) throw new AccountDoesNotExistException();
         if(accountsToTransactions.get(account).contains(transaction))
             accountsToTransactions.get(account).remove(transaction);
         else
             throw new TransactionDoesNotExistException();
+        this.writeAccount(account);
     }
 
     public boolean containsTransaction(String account, Transaction transaction){

@@ -73,7 +73,7 @@ public class Payment extends Transaction{
      */
     @Override
     public String toString(){
-        String ret = super.toString() + "\nIncom-Interest: " + incomingInterest + "\nOutgo-Interest: " + outgoingInterest;
+        String ret = super.toString() + ", Incom-Interest: " + incomingInterest + ", Outgo-Interest: " + outgoingInterest;
         return ret;
     }
 

@@ -33,4 +33,9 @@ public class PaymentTest {
         p1.setAmount(p2.getAmount());
         assertEquals(p1,p2);
     }
+
+    @Test
+    public void TestToString(){
+        assertEquals("Date: 13.10.2021, Amount: 1000.0, Description: Test Incomming, Incom-Interest: 0.05, Outgo-Interest: 0.1", p1.toString());
+    }
 }

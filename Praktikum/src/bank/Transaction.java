@@ -99,7 +99,7 @@ public abstract class Transaction implements CalculateBill, Serializable {
      * <p>Prints all variables into the Console</p>
      */
     public String toString(){
-        return "\nDate: \t\t\t" + date +"\nAmount: \t\t" + amount+ "\nDescription: \t" + description;
+        return "Date: " + date +", Amount: " + amount+ ", Description: " + description;
     }
 
     /**
