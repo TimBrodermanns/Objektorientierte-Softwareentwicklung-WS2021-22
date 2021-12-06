@@ -54,6 +54,10 @@ public class PrivateBank implements Bank{
         this.accountsToTransactions = p.accountsToTransactions;
     }
 
+    /**
+     * Reads all Accounts from the JSON Data in ->directoryName. Names the account after the File.
+     * @throws IOException if the Folder does Not Exist
+     */
     private void readAccounts() throws IOException {
         TransactionElementAdapter ada = new TransactionElementAdapter();
         GsonBuilder gsonBilder = new GsonBuilder();
@@ -93,6 +97,12 @@ public class PrivateBank implements Bank{
 
     }
 
+    /**
+     * Writes the Account as JSON file to ->directoryName. the file willBeNamed after the AccountName.
+     * It overrides Files with the Same Name!
+     * @param Account Account that will be Serialized
+     * @throws IOException If something went wrong at the Writing process. Read the Message for more Information.
+     */
     private void writeAccount(String Account) throws IOException {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
@@ -228,10 +238,17 @@ public class PrivateBank implements Bank{
         return outgoingInterest;
     }
 
+    /**
+     * Returns the Path to the Json elements
+     * @return Path of the JsonElemnts
+     */
     public String getPath(){
         return new File(directoryName).getPath().toString();
     }
 
+    /**
+     * Delets all Accounts with there Transactions
+     */
     public void reset(){ accountsToTransactions = new HashMap<String, List<Transaction>>(); }
 
     @Override
