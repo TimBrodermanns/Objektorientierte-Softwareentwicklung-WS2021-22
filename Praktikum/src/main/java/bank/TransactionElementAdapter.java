@@ -113,7 +113,6 @@ public class TransactionElementAdapter implements JsonSerializer<Transaction>, J
             case "Transfer" -> (new Gson().fromJson(element, Transfer.class));
             default -> throw new JsonParseException("Unknown Typ");
         };
-
  */
     }
 }

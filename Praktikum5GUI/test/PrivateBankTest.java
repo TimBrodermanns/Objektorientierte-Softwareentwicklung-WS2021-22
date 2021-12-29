@@ -2,20 +2,16 @@ import bank.PrivateBank;
 import bank.exceptions.*;
 import org.junit.jupiter.api.*;
 import bank.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestPrivateBank {
+public class PrivateBankTest {
 
     public PrivateBank privateBank;
     @BeforeEach
@@ -38,13 +34,6 @@ public class TestPrivateBank {
         }
     }
 
-    @AfterEach
-    private void fileCleanUp(){
-        File fin = new File(privateBank.getPath());
-        for (File file : fin.listFiles()) {
-            file.delete();
-        }
-    }
 
     @Test
     public void EqualTest(){
@@ -74,6 +63,7 @@ public class TestPrivateBank {
         assertEquals(privateBank,new PrivateBank(privateBank));
     }
 
+    /*
     @ParameterizedTest
     @ValueSource(strings = {"newUser", "newUser1", "newUser2", "newUser3"})
     public void AccountCreationTest(String Account){
@@ -82,7 +72,7 @@ public class TestPrivateBank {
             privateBank.createAccount(Account);
         });
     }
-
+    /*
     @Test
     public void AddTransactionTest(){
         Exception exception = assertThrows(AccountDoesNotExistException.class, () -> {
@@ -107,6 +97,7 @@ public class TestPrivateBank {
         });
         assertEquals(exception4.getMessage(), "You can only make Transfers for your own account");
     }
+    */
 
     @Test
     public void ContainsTransactionTest(){
@@ -121,6 +112,7 @@ public class TestPrivateBank {
         assertFalse(privateBank.containsTransaction("User",p1));
     }
 
+    /*
     @Test
     public void RemoveTransactionTest(){
         Payment p0 = new Payment("Once", 1,"",1,1);
@@ -137,6 +129,8 @@ public class TestPrivateBank {
         }catch (Exception e){}
         assertFalse(privateBank.containsTransaction("User1", p0));
     }
+
+     */
 
     @Test
     public void GetAccountBalanceTest(){
@@ -188,6 +182,7 @@ public class TestPrivateBank {
         assertEquals(expected, new String(Files.readAllBytes(Paths.get(file.getAbsolutePath()))));
     }
 
+    /*
     @ParameterizedTest
     @ValueSource(strings = {"User.json", "User1.json", "User2.json"})
     public void TestAllAccountsSerialize(String jsonName){
@@ -197,6 +192,14 @@ public class TestPrivateBank {
             contains = contains || fi.getName().equals(jsonName);
         }
         assertTrue(contains);
+    }
+    */
+
+    @Test
+    public void TestGetAllUser(){
+        assertTrue(privateBank.getAllAccounts().contains("User"));
+        assertTrue(privateBank.getAllAccounts().contains("User1"));
+        assertTrue(privateBank.getAllAccounts().contains("User2"));
     }
 
     @Test

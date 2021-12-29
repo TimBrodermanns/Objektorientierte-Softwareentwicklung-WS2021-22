@@ -63,11 +63,9 @@ public class PrivateBank implements Bank{
         GsonBuilder gsonBilder = new GsonBuilder();
         gsonBilder.registerTypeHierarchyAdapter(Transaction.class, ada);
         Gson gson = gsonBilder.create();
-
         File f = new File(this.directoryName);
         if(!f.exists()) return;
-
-        Arrays.stream(f.listFiles()).toList().forEach((fi)->{
+        for(File fi : f.listFiles()){
             try {
                 Type listType = new TypeToken<Transaction>(){}.getType();
                 FileReader fr = new FileReader(fi.getAbsolutePath());
@@ -77,24 +75,7 @@ public class PrivateBank implements Bank{
                 System.out.println("Error in PrivateBank::readAccounts -> " +e.getMessage());
             }
             this.createAccount(fi.getName().split("\\.")[0], ada.getTransactions());
-        });
-
-        /*
-        GsonBuilder gson = new GsonBuilder();
-        gson.registerTypeHierarchyAdapter(Transaction.class, new TransactionElementAdapter());
-        Type listType = new TypeToken<Transaction>(){}.getType();
-        File folder = new File(directoryName);
-
-        if(folder.listFiles() != null){
-            for (File f: folder.listFiles()) {
-                System.out.println(f.getAbsolutePath());
-                String s = new String(Files.readAllBytes(Paths.get(f.getAbsolutePath())));
-                List<Transaction> list = gson.create().fromJson(s, listType);
-                this.createAccount(s.split("\\.")[0], list);
-            }
         }
-        */
-
     }
 
     /**
@@ -243,7 +224,7 @@ public class PrivateBank implements Bank{
      * @return Path of the JsonElemnts
      */
     public String getPath(){
-        return new File(directoryName).getPath().toString();
+        return new File(directoryName).getAbsolutePath().toString();
     }
 
     /**
