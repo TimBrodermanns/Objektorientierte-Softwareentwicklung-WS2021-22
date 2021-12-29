@@ -1,0 +1,52 @@
+[
+  {
+    "CLASSNAME": "Payment",
+    "INSTANCE": {
+      "date": "One",
+      "amount": 1000.0,
+      "description": "",
+      "IncomingInterest": 0.1,
+      "OutgoingInterest": 0.1
+    }
+  },
+  {
+    "CLASSNAME": "Payment",
+    "INSTANCE": {
+      "date": "Once",
+      "amount": 1.0,
+      "description": "",
+      "IncomingInterest": 0.1,
+      "OutgoingInterest": 0.1
+    }
+  },
+  {
+    "CLASSNAME": "Payment",
+    "INSTANCE": {
+      "date": "Once",
+      "amount": 1.0,
+      "description": "",
+      "IncomingInterest": 0.1,
+      "OutgoingInterest": 0.1
+    }
+  },
+  {
+    "CLASSNAME": "Payment",
+    "INSTANCE": {
+      "date": "Once",
+      "amount": 1.0,
+      "description": "",
+      "IncomingInterest": 0.1,
+      "OutgoingInterest": 0.1
+    }
+  },
+  {
+    "CLASSNAME": "Payment",
+    "INSTANCE": {
+      "date": "Once",
+      "amount": 1.0,
+      "description": "",
+      "IncomingInterest": 0.1,
+      "OutgoingInterest": 0.1
+    }
+  }
+]
