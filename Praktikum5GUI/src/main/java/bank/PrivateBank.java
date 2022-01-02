@@ -104,6 +104,12 @@ public class PrivateBank implements Bank{
         if(accountsToTransactions.containsKey(account))
             throw new AccountAlreadyExistsException();
         accountsToTransactions.put(account, new ArrayList<Transaction>());
+        try {
+            this.writeAccount(account);
+        }catch (Exception e){
+            System.out.println("Error in writeAccount");
+        }
+
     }
 
     public void createAccount(String account, List<Transaction> transactions) throws AccountAlreadyExistsException{
@@ -117,6 +123,11 @@ public class PrivateBank implements Bank{
             }
         }
         accountsToTransactions.put(account, transactions);
+        try {
+            this.writeAccount(account);
+        }catch (Exception e){
+            System.out.println("Error in writeAccount");
+        }
     }
 
     public void addTransaction(String account, Transaction transaction) throws TransactionAlreadyExistException, AccountDoesNotExistException, IOException{

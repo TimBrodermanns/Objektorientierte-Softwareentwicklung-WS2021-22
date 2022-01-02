@@ -8,7 +8,12 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.TextField?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.control.Separator?>
+<VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="bank.MainController">
-    <ListView fx:id="AccountList"  />
+    <Label text="Alle Accounts"/>
+    <ListView fx:id="AccountList"/>
+    <Separator/>
+    <TextField text="Neuer Account Name" fx:id="NewName"/>
+    <Button text="Account hinzufügen" onMouseClicked="#addAccount" fx:id="createNewAccount"/>
 </VBox>

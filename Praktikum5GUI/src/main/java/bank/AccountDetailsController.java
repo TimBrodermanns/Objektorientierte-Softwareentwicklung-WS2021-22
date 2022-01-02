@@ -28,6 +28,13 @@ public class AccountDetailsController {
     @FXML
     public ListView transactionView;
 
+    @FXML
+    private Label yourBalance;
+
+    private void printBalance(){
+        yourBalance.setText("Balance: " + pb.getAccountBalance(Username));
+    }
+
     private void populateTransactionViewWithTransactionList(List<Transaction> tl){
         this.transactionView.getItems().clear();
         try {
@@ -62,8 +69,13 @@ public class AccountDetailsController {
         }
     }
 
-    public void init(){
+    public void refresh(){
+        printBalance();
         populateTransactionViewWithTransactionList(this.pb.getTransactions(this.Username));
+    }
+
+    public void init(){
+        refresh();
         Label ascSorting = new Label("Aufsteigende Sortierung");
         Label descSorting = new Label("Absteigende Sortierung");
         Label postiveValues = new Label("Anzeige von nur positiven amount");
@@ -99,5 +111,7 @@ public class AccountDetailsController {
         stage.setTitle("My Bank");
         stage.setScene(scene);
         stage.show();
+        Stage currstage = (Stage) SortingOptions.getScene().getWindow();
+        currstage.close();
     }
 }

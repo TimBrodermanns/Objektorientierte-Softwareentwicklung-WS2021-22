@@ -12,7 +12,10 @@
             fx:controller="bank.AccountDetailsController"
             prefHeight="400.0" prefWidth="600.0">
 
-    <Button onMouseClicked="#back" text="Zurück"/>
+    <Button   onMouseClicked="#back" text="Zurück"/>
+    <Button text="Add Payment"/>
+    <Button text="Add Transfer"/>
+    <Label fx:id="yourBalance"/>
     <ComboBox fx:id="SortingOptions"/>
     <ListView fx:id="transactionView"/>
 

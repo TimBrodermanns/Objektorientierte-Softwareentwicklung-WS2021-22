@@ -12,9 +12,9 @@
             fx:controller="bank.AccountDetailsController"
             prefHeight="400.0" prefWidth="600.0">
 
-    <Button onMouseClicked="#back" text="Zurück"/>
+    <Button   onMouseClicked="#back" text="Zurück"/>
+    <Label fx:id="yourBalance"/>
     <ComboBox fx:id="SortingOptions"/>
-    <Button fx:id="Sort" text="Sortieren"/>
     <ListView fx:id="transactionView"/>
 
 </VBox>
