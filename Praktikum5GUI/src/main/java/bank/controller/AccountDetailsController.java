@@ -63,7 +63,10 @@ public class AccountDetailsController {
                     if (result.get() == ButtonType.OK){
                         System.out.println("Transaction delited");
                         try {
-                            pb.removeTransaction(Username, t);
+                            if(t instanceof Payment)
+                                pb.removeTransaction(Username, t);
+                            else
+                                pb.deleteInAndOutgoing((Transfer) t);
                         }catch (Exception e){}
                     }
                 });

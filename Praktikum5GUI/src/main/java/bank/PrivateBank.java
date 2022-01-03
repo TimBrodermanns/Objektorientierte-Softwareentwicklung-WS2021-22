@@ -164,13 +164,12 @@ public class PrivateBank implements Bank{
             this.writeAccount(((Transfer) transaction).getRecipient());
         }
         this.writeAccount(account);
-
     }
 
-    public void removeTransaction(String account, Transaction transaction) throws TransactionDoesNotExistException, AccountDoesNotExistException, IOException{
+    public void removeTransaction(String account, Transaction transaction) throws Exception {
         if(!accountsToTransactions.containsKey(account)) throw new AccountDoesNotExistException();
         if(accountsToTransactions.get(account).contains(transaction))
-            accountsToTransactions.get(account).remove(transaction);
+            this.accountsToTransactions.get(account).remove(transaction);
         else
             throw new TransactionDoesNotExistException();
         this.writeAccount(account);
@@ -271,7 +270,16 @@ public class PrivateBank implements Bank{
         return this.name + "\n"+ this.incomingInterest + "\n" + this.outgoingInterest + "\n" + this.accountsToTransactions.toString();
     }
 
-
+    public void deleteInAndOutgoing(Transfer t) throws Exception{
+        String sender = t.getSender();
+        String reci = t.getRecipient();
+        IncomingTransfer in = new IncomingTransfer(t);
+        OutgoingTransfer out = new OutgoingTransfer(t);
+        this.accountsToTransactions.get(sender).remove(out);
+        this.accountsToTransactions.get(reci).remove(in);
+        this.writeAccount(sender);
+        this.writeAccount(reci);
+    }
 
     @Override
     public boolean equals(Object o){

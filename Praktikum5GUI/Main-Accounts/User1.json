@@ -8,5 +8,15 @@
       "sender": "TimB",
       "recipient": "User1"
     }
+  },
+  {
+    "CLASSNAME": "OutgoingTransfer",
+    "INSTANCE": {
+      "date": "04.01.2022",
+      "amount": -100.0,
+      "description": "d",
+      "sender": "User1",
+      "recipient": "TestAccount1"
+    }
   }
 ]
