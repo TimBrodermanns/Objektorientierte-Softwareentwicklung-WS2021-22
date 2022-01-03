@@ -161,6 +161,7 @@ public class PrivateBank implements Bank{
             List<Transaction> newRecipientList = accountsToTransactions.get(((Transfer) transaction).getRecipient());
             newRecipientList.add(ic);
             accountsToTransactions.put(((Transfer) transaction).getRecipient(), newRecipientList);
+            this.writeAccount(((Transfer) transaction).getRecipient());
         }
         this.writeAccount(account);
 
@@ -261,10 +262,16 @@ public class PrivateBank implements Bank{
      */
     public void reset(){ accountsToTransactions = new HashMap<String, List<Transaction>>(); }
 
+    public boolean existsAccount(String acc){
+        return this.accountsToTransactions.containsKey(acc);
+    }
+
     @Override
     public String toString(){
         return this.name + "\n"+ this.incomingInterest + "\n" + this.outgoingInterest + "\n" + this.accountsToTransactions.toString();
     }
+
+
 
     @Override
     public boolean equals(Object o){

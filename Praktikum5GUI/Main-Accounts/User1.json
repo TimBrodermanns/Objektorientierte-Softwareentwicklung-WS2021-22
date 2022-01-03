@@ -1,32 +1,12 @@
 [
   {
-    "CLASSNAME": "Payment",
+    "CLASSNAME": "IncomingTransfer",
     "INSTANCE": {
-      "date": "One",
-      "amount": 1000.0,
-      "description": "",
-      "IncomingInterest": 0.1,
-      "OutgoingInterest": 0.1
-    }
-  },
-  {
-    "CLASSNAME": "Payment",
-    "INSTANCE": {
-      "date": "Two",
-      "amount": 3000.0,
-      "description": "",
-      "IncomingInterest": 0.1,
-      "OutgoingInterest": 0.1
-    }
-  },
-  {
-    "CLASSNAME": "Payment",
-    "INSTANCE": {
-      "date": "Three",
-      "amount": 2000.0,
-      "description": "",
-      "IncomingInterest": 0.1,
-      "OutgoingInterest": 0.1
+      "date": "1.1.2022",
+      "amount": 500.0,
+      "description": "kalsdoia",
+      "sender": "TimB",
+      "recipient": "User1"
     }
   }
 ]

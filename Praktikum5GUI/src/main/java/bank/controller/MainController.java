@@ -1,14 +1,12 @@
-package bank;
+package bank.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import bank.Main;
+import bank.PrivateBank;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.util.Optional;
 
@@ -72,6 +70,7 @@ public class MainController {
                 if (result.get() == ButtonType.OK){
                     try {
                     pb.deleteAccount(s);
+                    this.populateListView();
                     }catch (Exception e){}
                 }
             });

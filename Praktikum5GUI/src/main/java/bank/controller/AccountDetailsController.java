@@ -1,13 +1,18 @@
-package bank;
+package bank.controller;
 
+import bank.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class AccountDetailsController {
 
@@ -40,10 +45,13 @@ public class AccountDetailsController {
         try {
             for (Transaction t : tl) {
                 String s = new String();
+                /*
                 if (t instanceof Payment) s = ((Payment) t).toString();
                 else if (t instanceof IncomingTransfer) s = ((IncomingTransfer) t).toString();
                 else if (t instanceof OutgoingTransfer) s = ((OutgoingTransfer) t).toString();
                 else continue;
+                */
+                s = t.toString();
                 ContextMenu cm = new ContextMenu();
                 MenuItem delete = new MenuItem("Delete");
                 delete.setOnAction((Event) ->{
@@ -101,6 +109,32 @@ public class AccountDetailsController {
             if(SortingOptions.getValue() == postiveValues) populateTransactionViewWithTransactionList(this.pb.getTransactionsByType(this.Username, true));
             if(SortingOptions.getValue() == neagiveValues) populateTransactionViewWithTransactionList(this.pb.getTransactionsByType(this.Username, false));
         });
+    }
+
+    public void AddPayment() throws  Exception {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("AddPayment.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        AddPaymentController controller = fxmlLoader.<AddPaymentController>getController();
+        controller.setPb(this.pb);
+        controller.setUsername(this.Username);
+        stage.setTitle("My Bank");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void AddTransfer() throws  Exception{
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("AddTransfer.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        AddTransferController controller = fxmlLoader.<AddTransferController>getController();
+        controller.setPb(this.pb);
+        controller.setUsername(this.Username);
+
+        stage.setTitle("My Bank");
+        stage.setScene(scene);
+        stage.show();
+        controller.init();
     }
 
     @FXML

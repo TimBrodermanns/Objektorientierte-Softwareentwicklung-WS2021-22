@@ -10,10 +10,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Separator?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="bank.MainController">
+      fx:controller="bank.controller.MainController">
     <Label text="Alle Accounts"/>
     <ListView fx:id="AccountList"/>
     <Separator/>
     <TextField text="Neuer Account Name" fx:id="NewName"/>
-    <Button text="Account hinzufügen" onMouseClicked="#addAcount" fx:id="createNewAccount"/>
+    <Button text="Account hinzufügen" onMouseClicked="#addAccount" fx:id="createNewAccount"/>
 </VBox>
