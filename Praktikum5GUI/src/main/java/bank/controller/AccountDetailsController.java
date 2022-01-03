@@ -69,6 +69,7 @@ public class AccountDetailsController {
                                 pb.deleteInAndOutgoing((Transfer) t);
                         }catch (Exception e){}
                     }
+                    refresh();
                 });
                 cm.getItems().add(delete);
                 Label l = new Label(s);
